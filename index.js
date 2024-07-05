@@ -41,6 +41,13 @@ app.post('/dataIO', (req, res) => {
   res.status(200).send(jsonData);
 });
 
+app.post('/dataAlert', (req, res) => {
+  //console.log('DATA IO',req.body.data);
+  const data_ = req.body.data;
+  io.emit('user_online',data_);
+  res.status(200).send(jsonData);
+});
+
 app.post('/dataC', (req, res) => {
   //console.log('DATA C',req.body.data);
   const data_ = req.body.data;
